@@ -1,0 +1,87 @@
+@import '../colors/colors';
+
+@mixin set-single-property($property, $value) {
+  #{$property} :#{$value};
+}
+
+@mixin set-multiple-properties($properties) {
+  @each $name, $value in $properties {
+    @include set-single-property($name, $value);
+  }
+}
+
+@mixin flex-dircolumn() {
+  @include set-multiple-properties((
+    display: flex,
+    flex-direction: column
+  ));
+}
+
+@mixin flex-items-center() {
+  @include set-multiple-properties((
+    display: flex,
+    align-items: center
+  ));
+}
+
+@mixin flex-content-center() {
+  @include set-multiple-properties((
+    display: flex,
+    justify-content: center
+  ));
+}
+
+@mixin flex-center-center() {
+  @include set-multiple-properties((
+    display: flex,
+    align-items: center,
+    justify-content: center
+  ));
+}
+
+@mixin width-height-setter($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin make-text-elipsis() {
+  @include set-multiple-properties((
+    overflow: hidden,
+    white-space: nowrap,
+    text-overflow: ellipsis
+  ));
+}
+
+@mixin scroll-overflow-generator($thumbColor: null) {
+  overflow: hidden;
+
+  &:hover {
+    overflow: overlay;
+  }
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @if ($thumbColor) {
+      background-color: $thumbColor;
+    } @else {
+      background-color: $primary;
+    }
+  }
+}
+
+@mixin for-media-queries-size($size) {
+  @if $size == phone-only {
+    @media (max-width: 599px) { @content; }
+  } @else if $size == tablet-portrait-up {
+    @media (min-width: 600px) { @content; }
+  } @else if $size == tablet-landscape-up {
+    @media (min-width: 900px) { @content; }
+  } @else if $size == desktop-up {
+    @media (min-width: 1200px) { @content; }
+  } @else if $size == big-desktop-up {
+    @media (min-width: 1800px) { @content; }
+  }
+}

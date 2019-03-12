@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AngularFireAuthModule } from 'angularfire2/auth';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 // import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule } from '@angular/fire';
 
 import { DKRoutingModule } from './dk-routing.module';
 import { DKComponent } from './dk.component';
@@ -23,6 +23,7 @@ const firebaseConfig = {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     DKRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     // AngularFireDatabaseModule,

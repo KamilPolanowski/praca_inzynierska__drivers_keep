@@ -1,0 +1,15 @@
+// https://github.com/angular/material2/blob/5.2.x/src/lib/core/theming/_theming.scss
+
+@mixin palette-theme($theme) {
+  $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $text-color: mat-color($primary, default-contrast);
+
+  .default-theming-colors {
+    background-color: mat-color($primary);
+    color: $text-color;
+  }
+}

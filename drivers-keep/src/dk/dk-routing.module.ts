@@ -6,11 +6,11 @@ const routes: Routes = [
     path: 'login',
     loadChildren: './login/login.module#LoginModule',
     // canActivate: [AuthGuard],
-  }/* ,
-  {
-    path: 'mobile-redirect',
-    component: ThisIsMobileAppComponent
   },
+  {
+    path: 'glowny-widok',
+    loadChildren: './glowny-widok/glowny-widok.module#GlownyWidokModule',
+  }/* ,
   {
     path: '**',
     component: PageNotFoundComponent

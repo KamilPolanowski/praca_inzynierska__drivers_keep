@@ -1,0 +1,12 @@
+$task-section-width: 400px;
+$toolbar-height: 70px;
+$header-top-padding: 15px;
+$header-height: 35px;
+$paddings: 20px;
+$mat-divider-height: 1px;
+
+$toolbar-substracted-height: calc(100vh - #{$toolbar-height});
+
+$whole-header: $header-height + $header-top-padding + $mat-divider-height;
+
+$height-left-for-task-iterators: calc(100% - #{$whole-header});

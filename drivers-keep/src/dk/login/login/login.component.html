@@ -1,9 +1,56 @@
-<div>
-  <h1>Sign In with Your Phone Number</h1>
+<div class="login">
+
+  <mat-card class="login__card">
+    <mat-card-header class="card__header default-theming-colors">
+      <mat-card-title class="header__title">
+        {{ title }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card__content">
+      <div class="content__form">
+
+        <div *ngIf="currentView === 'enter-phone-number'" class="form__verify-phone">
+          <div class="verify-phone__phone">
+            <mat-form-field class="phone__form-field">
+              <input matInput placeholder="Wprowadź swój numer telefonu" [formControl]="phoneNumber" type="tel" required class="form-field__input">
+            </mat-form-field>
+          </div>
+
+          <div class="verify-phone__captcha">
+            <div id="recaptcha-container"></div>
+          </div>
+
+          <div class="verify-phone__actions">
+            <button  mat-raised-button (click)="signInWithPhoneNumber()" color="accent" class="actions__button">Prześlij kod sms!</button>
+          </div>
+
+          <div class="verify-phone__register">
+            <div class="register__label">Nie masz jeszcze konta?</div>
+            <div class="register__forwarder">Zarejestruj się!</div>
+          </div>
+        </div>
+
+        <div *ngIf="currentView ==='enter-verification-code'">
+          <mat-form-field>
+            <input matInput placeholder="Kod weryfikacyjny" [formControl]="verificationCode">
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="currentView ==='register'">
+          
+        </div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+<!-- <div>
+  <h1></h1>
 
   <label for="phone">Phone Number</label><br>
-  <input type="text" [(ngModel)]="phoneNumber" placeholder="Phone Number"
-    (keydown.enter)="signInWithPhoneNumber()">
+  <input type="text" [(ngModel)]="phoneNumber" placeholder="Phone Number" (keydown.enter)="signInWithPhoneNumber()">
 
   <div id="recaptcha-container"></div>
 
@@ -15,4 +62,4 @@
     <button (click)="verifyLoginCode()">Verify</button>
   </div>
 
-</div>
+</div> -->

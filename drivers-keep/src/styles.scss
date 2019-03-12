@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import './assets/scss/colors/colors';
+@import './assets/scss/mixins/palette-theme';
+@import './assets/scss/styles/global-style';
+
+@include mat-core();
+
+$pcp-main-theme: mat-light-theme($pcp-primary, $pcp-accent, $pcp-warn);
+
+@mixin custom-theme($theme) {
+  @include palette-theme($theme);
+}
+
+@include angular-material-theme($pcp-main-theme);
+@include custom-theme($pcp-main-theme);

@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+@import './palette-colors';
+
+$pcp-primary: mat-palette($pcp-primary-palette);
+$pcp-accent:  mat-palette($pcp-accent-palette);
+$pcp-warn:    mat-palette($pcp-warn-palette);
+
+$primary: mat-color($pcp-primary);
+$accent: mat-color($pcp-accent);
+$warn: mat-color($pcp-warn);
+
+$grey-background: mat-color($pcp-primary, 50);
