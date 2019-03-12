@@ -10,6 +10,7 @@
       "prefix": "dk",
       "schematics": {
         "@schematics/angular:component": {
+          "changeDetection": "OnPush",
           "style": "scss"
         }
       },
