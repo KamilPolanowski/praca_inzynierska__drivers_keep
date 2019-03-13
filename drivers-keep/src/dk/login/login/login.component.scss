@@ -30,10 +30,16 @@
         width: calc(350px - (2 * (10px)));
         margin-top: 15px;
 
-        .form__verify-phone {
+        .form__login {
           height: 100%;
+
+          .login__credentials {
+            height: 260px;
+            @include flex-center-center();
+            @include flex-dircolumn();
+          }
           
-          .verify-phone__phone {
+          /* .verify-phone__phone {
             @include flex-center-center();
             height: 140px;
 
@@ -51,10 +57,15 @@
           .verify-phone__actions {
             height: 85px;
             @include flex-center-center();
+          } */
+
+          .login__actions {
+            height: 60px;
+            @include flex-center-center();
           }
 
-          .verify-phone__register {
-            height: 30px;
+          .login__register {
+            height: 35px;
             @include flex-center-center();
 
             .register__label {
@@ -69,6 +80,25 @@
               cursor: pointer;
               font-size: 20px;
             }
+          }
+        }
+
+        .form__register {
+          height: 100%;
+          @include flex-dircolumn();
+          justify-content: space-around;
+          align-items: center;
+
+          .register__actions {
+            height: 60px;
+            @include flex-center-center();
+          }
+
+          .register__error {
+            height: 60px;
+            margin: 0 35px 0 35px;
+            font-size: 20px;
+            color: $primary;
           }
         }
       }

@@ -1,11 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { User } from 'firebase/app';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 
 import { FirebaseAuthServiceService } from '@dk-sys/firebase-auth-service/firebase-auth-service.service';
+import { FirebaseDatabaseService } from '@dk-sys/firebase-database-service/firebase-database.service';
+import { UserInfoForRegister } from '@dk-shared/interfaces/database-structures/users.interface';
+import { Subscription } from 'rxjs';
 
-type CurrentView = 'enter-phone-number' | 'enter-verification-code' | 'register';
+type CurrentView = 'login' | 'verify-code' | 'register';
 
 @Component({
   selector: 'dk-login',
@@ -13,35 +15,37 @@ type CurrentView = 'enter-phone-number' | 'enter-verification-code' | 'register'
   styleUrls: ['./login.component.scss']/* ,
   changeDetection: ChangeDetectionStrategy.OnPush */
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   public currentView: CurrentView;
-  public phoneNumber: FormControl = new FormControl('+48123456789', [Validators.required]);
-  public verificationCode: FormControl = new FormControl('123456');
+  public email: FormControl = new FormControl('kpolanowski44@gmail.com', Validators.email);
+  public password: FormControl = new FormControl('haselko123');
   // public phoneNumber: string = '+48123456789';
   // public verificationCode: string = '123456';
   public confirmationResult: Promise<firebase.auth.ConfirmationResult>;
-  public user: User;
   public captchaContainer: firebase.auth.RecaptchaVerifier;
   public title: string;
+  public registrationError: string = '';
+  private stateSub: Subscription;
 
   constructor(
     private firebaseAuthService: FirebaseAuthServiceService,
+    private firebaseDataBaseService: FirebaseDatabaseService,
     private router: Router) { }
 
   ngOnInit() {
-    this.viewSwitcher('enter-phone-number');
+    this.viewSwitcher('login');
 
-    this.firebaseAuthService.exposeUserState().subscribe(state => {
+    this.stateSub = this.firebaseAuthService.exposeUserState().subscribe(state => {
       console.log('state', state);
       if (!!state) {
-        this.router.navigate['/glowny-widok'];
+        this.router.navigate(['/glowny-widok']);
       }
     });
 
-    setTimeout(() => {
+    /* setTimeout(() => {
       this.captchaContainer = this.firebaseAuthService.accessAppVerifier('recaptcha-container');
       this.captchaContainer.render();
-    }, 500);
+    }, 500); */
   }
 
   public viewSwitcher(whereTo: CurrentView): void {
@@ -51,10 +55,10 @@ export class LoginComponent implements OnInit {
 
   private setTitle(whereTo: CurrentView): void {
     switch (whereTo) {
-      case 'enter-phone-number':
+      case 'login':
         this.title = `Zaloguj się do Drivers' Keep`;
         break;
-      case 'enter-verification-code':
+      case 'verify-code':
         this.title = `Potwierdź kod weryfikacyjny`;
         break;
       case 'register':
@@ -63,7 +67,35 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  public signInWithPhoneNumber(): void {
+  public signInWithAnEmail(): void {
+    this.firebaseAuthService.singInWithAnEmail(this.email.value, this.password.value).then(() => {
+      this.router.navigate(['/glowny-widok']);
+    }).catch(err => console.error('login', err));
+  }
+
+  public registerViaEmail(): void {
+    this.firebaseAuthService.registerNewUserViaEmail(this.email.value, this.password.value).then(register => {
+      const passInfoForRegisteringLater: UserInfoForRegister = {
+        key: register.user.uid,
+        toRegister: {
+          email: register.user.email,
+          phoneNumber: register.user.phoneNumber,
+          kind: 'awaits'
+        }
+      };
+      this.firebaseDataBaseService.setUserInfoForRegistration(passInfoForRegisteringLater);
+
+      this.viewSwitcher('login');
+
+    }).catch(err => {
+      console.error(err);
+      if (err.code === 'auth/email-already-in-use') {
+        this.registrationError = err.message;
+      }
+    });
+  }
+
+  /* public signInWithPhoneNumber(): void {
     this.confirmationResult = this.firebaseAuthService.signInWithPhoneNumber(this.phoneNumber.value,
       this.captchaContainer);
 
@@ -75,14 +107,18 @@ export class LoginComponent implements OnInit {
         }
       });
     }
-  }
+  } */
 
-  public verifyLoginCode(): void {
+ /*  public verifyLoginCode(): void {
     this.firebaseAuthService.verifySMSCode(this.confirmationResult, this.verificationCode.value).then(verified => {
       console.log('verified', verified);
       if (verified) {
         this.router.navigate['/glowny-widok'];
       }
     });
+  } */
+
+  ngOnDestroy(): void {
+    this.stateSub.unsubscribe();
   }
 }

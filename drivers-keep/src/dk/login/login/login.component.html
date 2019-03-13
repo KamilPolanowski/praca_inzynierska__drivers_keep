@@ -9,8 +9,27 @@
     <mat-card-content class="card__content">
       <div class="content__form">
 
-        <div *ngIf="currentView === 'enter-phone-number'" class="form__verify-phone">
-          <div class="verify-phone__phone">
+        <div *ngIf="currentView === 'login'" class="form__login">
+          <div class="login__credentials">
+
+            <div class="credentials__email">
+              <mat-form-field>
+                <input matInput placeholder="Email" [formControl]="email" required>
+              </mat-form-field>
+            </div>
+            <div class="credentials__password">
+              <mat-form-field>
+                <input matInput placeholder="Hasło" [formControl]="password" type="password" required>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="login__actions">
+            <button mat-raised-button (click)="signInWithAnEmail()" color="accent"
+              class="actions__log-button">Loguj!</button>
+          </div>
+          <!-- <div class="verify-phone__phone">
             <mat-form-field class="phone__form-field">
               <input matInput placeholder="Wprowadź swój numer telefonu" [formControl]="phoneNumber" type="tel" required class="form-field__input">
             </mat-form-field>
@@ -22,22 +41,46 @@
 
           <div class="verify-phone__actions">
             <button  mat-raised-button (click)="signInWithPhoneNumber()" color="accent" class="actions__button">Prześlij kod sms!</button>
-          </div>
+          </div> -->
 
-          <div class="verify-phone__register">
+          <div class="login__register">
             <div class="register__label">Nie masz jeszcze konta?</div>
-            <div class="register__forwarder">Zarejestruj się!</div>
+            <div (click)="viewSwitcher('register')" class="register__forwarder">Zarejestruj się!</div>
           </div>
         </div>
 
-        <div *ngIf="currentView ==='enter-verification-code'">
-          <mat-form-field>
-            <input matInput placeholder="Kod weryfikacyjny" [formControl]="verificationCode">
-          </mat-form-field>
+        <div *ngIf="currentView ==='verify-code'">
+
         </div>
 
-        <div *ngIf="currentView ==='register'">
-          
+        <div *ngIf="currentView ==='register'" class="form__register">
+          <div class="register__credentials">
+
+            <div class="credentials__email">
+              <mat-form-field>
+                <input matInput placeholder="Email" [formControl]="email" required>
+              </mat-form-field>
+            </div>
+            <div class="credentials__password">
+              <mat-form-field>
+                <input matInput placeholder="Hasło" [formControl]="password" type="password" required>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="register__actions">
+            <button *ngIf="!(!!registrationError); else returnToLogin" mat-raised-button (click)="registerViaEmail()" color="accent"
+              class="actions__register-button">Zarejestruj!</button>
+            <ng-template #returnToLogin>
+              <button  mat-raised-button (click)="viewSwitcher('login')" color="warn"
+                class="actions__register-button">Powrót do logowania</button>
+            </ng-template>
+          </div>
+
+          <div class="register__error">
+            {{ registrationError }}
+          </div>
         </div>
 
       </div>

@@ -9,7 +9,6 @@ import { share } from 'rxjs/operators';
 })
 export class FirebaseAuthServiceService {
   private readonly authState$: Observable<User | null> = this.fireAuth.authState.pipe(share());
-  private user: User;
 
   constructor(private fireAuth: AngularFireAuth) {}
 
@@ -17,19 +16,33 @@ export class FirebaseAuthServiceService {
     return this.authState$;
   }
 
-  public accessAppVerifier(elementId: string): firebase.auth.RecaptchaVerifier {
-    return new firebaseAuth.RecaptchaVerifier(elementId);
+  public getUserInfo(): User {
+    return this.fireAuth.auth.currentUser;
   }
 
-  public signInWithPhoneNumber(phoneNumber: string, applicationVerifier: firebase.auth.ApplicationVerifier): Promise<firebase.auth.ConfirmationResult> {
+  /* public accessAppVerifier(elementId: string): firebase.auth.RecaptchaVerifier {
+    return new firebaseAuth.RecaptchaVerifier(elementId);
+  } */
+
+  public singInWithAnEmail(email: string, password: string): Promise<firebaseAuth.UserCredential> {
+    return this.setPersistence().then(() => {
+      return this.fireAuth.auth.signInWithEmailAndPassword(email, password);
+    });
+  }
+
+  public setPersistence(): Promise<void> {
+    return this.fireAuth.auth.setPersistence(firebaseAuth.Auth.Persistence.NONE);
+  }
+
+  /* public signInWithPhoneNumber(phoneNumber: string, applicationVerifier: firebase.auth.ApplicationVerifier): Promise<firebase.auth.ConfirmationResult> {
     const session = firebaseAuth.Auth.Persistence.NONE;
 
     return this.fireAuth.auth.setPersistence(session).then(() => {
       return this.fireAuth.auth.signInWithPhoneNumber(phoneNumber, applicationVerifier);
     });
-  }
+  } */
 
-  public verifySMSCode(confirmationResult: Promise<firebase.auth.ConfirmationResult>, verificationCode: string): Promise<boolean> {
+  /* public verifySMSCode(confirmationResult: Promise<firebase.auth.ConfirmationResult>, verificationCode: string): Promise<boolean> {
     return new Promise<boolean>(resolve => {
       confirmationResult.then(confirmRes => {
         return confirmRes.confirm(verificationCode);
@@ -41,13 +54,11 @@ export class FirebaseAuthServiceService {
 
       }).catch(err => console.error(err));
     });
-  }
+  } */
 
-  public registerNewUser(email: string, password: string): Promise<firebaseAuth.UserCredential> {
-    return this.fireAuth.auth.createUserWithEmailAndPassword(email, password);
-  }
-
-  public returnUserInfo(): User {
-    return this.user;
+  public registerNewUserViaEmail(email: string, password: string): Promise<firebaseAuth.UserCredential> {
+    return this.setPersistence().then(() => {
+      return this.fireAuth.auth.createUserWithEmailAndPassword(email, password);
+    });
   }
 }
