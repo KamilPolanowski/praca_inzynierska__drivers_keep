@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { User, auth as firebaseAuth } from 'firebase/app';
+import { auth as firebaseAuth } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirebaseAuthServiceService {
-  private readonly authState$: Observable<User | null> = this.fireAuth.authState.pipe(share());
+export class FirebaseAuthService {
+  private readonly authState$: Observable<firebase.User | null> = this.fireAuth.authState.pipe(share());
 
   constructor(private fireAuth: AngularFireAuth) {}
 
-  public exposeUserState(): Observable<User | null> {
+  public exposeUserState(): Observable<firebase.User | null> {
     return this.authState$;
   }
 
-  public getUserInfo(): User {
+  public getUserInfo(): firebase.User {
     return this.fireAuth.auth.currentUser;
   }
 
@@ -25,13 +25,13 @@ export class FirebaseAuthServiceService {
   } */
 
   public singInWithAnEmail(email: string, password: string): Promise<firebaseAuth.UserCredential> {
-    return this.setPersistence().then(() => {
+    return this.setPersistence(firebaseAuth.Auth.Persistence.LOCAL).then(() => {
       return this.fireAuth.auth.signInWithEmailAndPassword(email, password);
     });
   }
 
-  public setPersistence(): Promise<void> {
-    return this.fireAuth.auth.setPersistence(firebaseAuth.Auth.Persistence.NONE);
+  public setPersistence(persistence: firebaseAuth.Auth.Persistence): Promise<void> {
+    return this.fireAuth.auth.setPersistence(persistence);
   }
 
   /* public signInWithPhoneNumber(phoneNumber: string, applicationVerifier: firebase.auth.ApplicationVerifier): Promise<firebase.auth.ConfirmationResult> {
@@ -57,7 +57,7 @@ export class FirebaseAuthServiceService {
   } */
 
   public registerNewUserViaEmail(email: string, password: string): Promise<firebaseAuth.UserCredential> {
-    return this.setPersistence().then(() => {
+    return this.setPersistence(firebaseAuth.Auth.Persistence.SESSION).then(() => {
       return this.fireAuth.auth.createUserWithEmailAndPassword(email, password);
     });
   }

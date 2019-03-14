@@ -1,0 +1,28 @@
+@import '../../../../assets/scss/mixins/general-purpose';
+
+.opening-dialog__title {
+  font-weight: 800;
+  padding: 10px;
+}
+
+.opening-dialog__content {
+  margin-top: 20px;
+  height: 450px;
+
+  %fieldWidth {
+    width: 252px;
+  }
+
+  .content__email-field {
+    @extend %fieldWidth;
+    margin-top: 15px;
+  }
+
+  .content__phone-field, .content__name-field, .content__surname-field {
+    @extend %fieldWidth;
+  }
+}
+
+.opening-dialog__actions {
+  @include flex-center-center();
+}

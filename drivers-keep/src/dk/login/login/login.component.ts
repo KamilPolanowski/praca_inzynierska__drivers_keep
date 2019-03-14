@@ -2,9 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 
-import { FirebaseAuthServiceService } from '@dk-sys/firebase-auth-service/firebase-auth-service.service';
+import { FirebaseAuthService } from '@dk-sys/firebase-auth-service/firebase-auth-service.service';
 import { FirebaseDatabaseService } from '@dk-sys/firebase-database-service/firebase-database.service';
-import { UserInfoForRegister } from '@dk-shared/interfaces/database-structures/users.interface';
+import { UserInfoForRegister, UserKinds } from '@dk-shared/interfaces/database-structures/users.interface';
 import { Subscription } from 'rxjs';
 
 type CurrentView = 'login' | 'verify-code' | 'register';
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private stateSub: Subscription;
 
   constructor(
-    private firebaseAuthService: FirebaseAuthServiceService,
+    private firebaseAuthService: FirebaseAuthService,
     private firebaseDataBaseService: FirebaseDatabaseService,
     private router: Router) { }
 
@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         toRegister: {
           email: register.user.email,
           phoneNumber: register.user.phoneNumber,
-          kind: 'awaits'
+          kind: UserKinds.Awaits
         }
       };
       this.firebaseDataBaseService.setUserInfoForRegistration(passInfoForRegisteringLater);

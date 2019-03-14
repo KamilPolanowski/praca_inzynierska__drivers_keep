@@ -30,12 +30,16 @@ export class FirebaseDatabaseService {
     this.fireDatabase.database.ref(onWhat).off(whatEvent, callback);
   }
 
-  update(updates: object, onComplete?: (a: Error | null) => any): Promise<any> {
-    return this.fireDatabase.database.ref().update(updates, onComplete);
+  update(path: string, updates: object, onComplete?: (a: Error | null) => any): Promise<any> {
+    return this.fireDatabase.database.ref().child(path).update(updates, onComplete);
   }
 
   delete(what: string, onComplete?: (a: Error | null) => any): Promise<any> {
     return this.fireDatabase.database.ref(what).remove(onComplete);
+  }
+
+  getTheRef(path: string): firebase.database.Reference {
+    return this.fireDatabase.database.ref(path);
   }
 
   setUserInfoForRegistration(credentials: UserInfoForRegister): void {
