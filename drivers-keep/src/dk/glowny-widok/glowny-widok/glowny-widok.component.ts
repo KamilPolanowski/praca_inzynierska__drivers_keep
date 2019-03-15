@@ -7,6 +7,15 @@ import { UserInfoForRegister, UserKinds, DatabaseUser } from '@dk-shared/interfa
 import { FirebaseAuthService } from '@dk-sys/firebase-auth-service/firebase-auth-service.service';
 import { OpeningDialogComponent, OpeningDialogData } from '../dialogi/opening-dialog/opening-dialog.component';
 
+interface MenuElement {
+  label: string;
+  path: string;
+}
+
+interface MenuElementSnapshot {
+  [prop: string]: MenuElement;
+}
+
 @Component({
   selector: 'dk-glowny-widok',
   templateUrl: './glowny-widok.component.html',
@@ -14,8 +23,9 @@ import { OpeningDialogComponent, OpeningDialogData } from '../dialogi/opening-di
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GlownyWidokComponent implements OnInit, OnDestroy {
-  private userToRegister: UserInfoForRegister = this.firebaseDatabaseService.exposeUserRegInfo();
   public renderView: boolean = false;
+  public tabs: MenuElement[] = [];
+  private userToRegister: UserInfoForRegister = this.firebaseDatabaseService.exposeUserRegInfo();
   private kindListenerRef: firebase.database.Reference;
   private userStateSub: Subscription;
 
@@ -51,7 +61,7 @@ export class GlownyWidokComponent implements OnInit, OnDestroy {
                   this.checkUserPermissionsToValidateView(snapshot.val().kind);
                 }
               }
-            });
+            }).catch(err => { throw err; });
           }
         } else {
           this.router.navigate(['/login']);
@@ -84,6 +94,8 @@ export class GlownyWidokComponent implements OnInit, OnDestroy {
   }
 
   private checkUserPermissionsToValidateView(userKind: UserKinds): void {
+    this.getMenuElementsDependingOnUserPermissions(userKind);
+
     if (userKind === UserKinds.Magazynier) {
       this.handleWarehousePermissions();
     }
@@ -92,6 +104,27 @@ export class GlownyWidokComponent implements OnInit, OnDestroy {
   private handleWarehousePermissions(): void {
     this.renderView = true;
     this.cd.detectChanges();
+  }
+
+  private getMenuElementsDependingOnUserPermissions(userKind: UserKinds): void {
+    this.firebaseDatabaseService.read('/menuElements/' + userKind).then(snapshot => {
+      if (!!snapshot && !!snapshot.val()) {
+        this.prepareTabLabels(snapshot.val());
+      }
+    }).catch(err => { throw err; });
+  }
+
+  private prepareTabLabels(menuElSnap: MenuElementSnapshot): MenuElement[] | never {
+    const tabOutput: MenuElement[] = [];
+    if (!!menuElSnap) {
+      Object.values(menuElSnap).forEach(value => {
+        tabOutput.push(value);
+      });
+      this.cd.markForCheck();
+      return this.tabs = tabOutput;
+    } else {
+      throw new Error('Błąd przy pobieraniu zakładek do menu - obiekt pusty');
+    }
   }
 
   ngOnDestroy(): void {

@@ -1,11 +1,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material';
 
 import { GlownyWidokRoutingModule } from './glowny-widok-routing.module';
 import { SharedModule } from '@dk-shared/modules/shared.module';
 import { GlownyWidokComponent } from './glowny-widok/glowny-widok.component';
 import { OpeningDialogComponent } from './dialogi/opening-dialog/opening-dialog.component';
+import { MatToolbarModule, MatTabsModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,8 @@ import { OpeningDialogComponent } from './dialogi/opening-dialog/opening-dialog.
     CommonModule,
     GlownyWidokRoutingModule,
     SharedModule,
-    MatDialogModule
+    MatToolbarModule,
+    MatTabsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

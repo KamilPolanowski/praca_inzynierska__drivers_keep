@@ -12,7 +12,10 @@ import {
   MatProgressSpinnerModule,
   MatInputModule,
   // MatDividerModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatDialogModule,
+  MatMenuModule,
+  MatRippleModule
 } from '@angular/material';
 
 @NgModule({
@@ -28,6 +31,9 @@ import {
     MatInputModule,
     // MatDividerModule,
     MatTooltipModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatRippleModule
     // ContextMenuModule
   ]
 })
