@@ -57,7 +57,7 @@ export class FirebaseAuthService {
   } */
 
   public registerNewUserViaEmail(email: string, password: string): Promise<firebaseAuth.UserCredential> {
-    return this.setPersistence(firebaseAuth.Auth.Persistence.SESSION).then(() => {
+    return this.setPersistence(firebaseAuth.Auth.Persistence.LOCAL).then(() => {
       return this.fireAuth.auth.createUserWithEmailAndPassword(email, password);
     });
   }

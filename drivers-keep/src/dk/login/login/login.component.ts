@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public signInWithAnEmail(): void {
     this.firebaseAuthService.singInWithAnEmail(this.email.value, this.password.value).then(() => {
       this.router.navigate(['/glowny-widok']);
-    }).catch(err => console.error('login', err));
+    }).catch(err => { throw err; });
   }
 
   public registerViaEmail(): void {

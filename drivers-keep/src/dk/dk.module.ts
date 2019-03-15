@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -7,6 +7,7 @@ import { AngularFireModule } from '@angular/fire';
 
 import { DKRoutingModule } from './dk-routing.module';
 import { DKComponent } from './dk.component';
+import { GlobalErrorHandler } from '@dk-sys/error-handlers/global-error-handler.service';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA_mP1AuZwmBJ5aJvYbuQHqs6rFgdj8iVs',
@@ -29,7 +30,9 @@ const firebaseConfig = {
     AngularFireAuthModule,
     AngularFireDatabaseModule
   ],
-  providers: [],
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ],
   bootstrap: [DKComponent]
 })
 export class DKModule { }

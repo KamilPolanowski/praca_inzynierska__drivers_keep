@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '@dk-sys/guards/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -10,6 +11,7 @@ const routes: Routes = [
   {
     path: 'glowny-widok',
     loadChildren: './glowny-widok/glowny-widok.module#GlownyWidokModule',
+    // canActivate: [AuthGuard]
   }/* ,
   {
     path: '**',

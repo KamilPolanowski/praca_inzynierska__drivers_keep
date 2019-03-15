@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FirebaseDatabaseService } from '@dk-sys/firebase-database-service/firebase-database.service';
 import { UserKinds } from '@dk-shared/interfaces/database-structures/users.interface';
 
@@ -14,8 +14,7 @@ export interface OpeningDialogData {
 @Component({
   selector: 'dk-opening-dialog',
   templateUrl: './opening-dialog.component.html',
-  styleUrls: ['./opening-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./opening-dialog.component.scss']
 })
 export class OpeningDialogComponent implements OnInit, OnDestroy {
   public disableResend: boolean = false;
@@ -26,7 +25,7 @@ export class OpeningDialogComponent implements OnInit, OnDestroy {
   private kindListenerRef: firebase.database.Reference;
 
   constructor(
-    // public dialogRef: MatDialogRef<OpeningDialogComponent>,
+    public dialogRef: MatDialogRef<OpeningDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public openingData: OpeningDialogData,
     private firebaseDatabaseService: FirebaseDatabaseService,
     private cd: ChangeDetectorRef
@@ -66,7 +65,7 @@ export class OpeningDialogComponent implements OnInit, OnDestroy {
         this.disableResend = true;
         this.cd.detectChanges();
       } else {
-        console.error('confirmPhoneNumber', err);
+        throw err;
       }
     });
   }
@@ -82,6 +81,10 @@ export class OpeningDialogComponent implements OnInit, OnDestroy {
         this.cd.detectChanges();
       }
     });
+  }
+
+  public closeDialog(): void {
+    location = location;
   }
 
   ngOnDestroy(): void {

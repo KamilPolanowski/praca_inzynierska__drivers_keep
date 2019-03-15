@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { FirebaseDatabaseService } from '@dk-sys/firebase-database-service/firebase-database.service';
 import { UserInfoForRegister, UserKinds, DatabaseUser } from '@dk-shared/interfaces/database-structures/users.interface';
 import { FirebaseAuthService } from '@dk-sys/firebase-auth-service/firebase-auth-service.service';
@@ -16,6 +17,7 @@ export class GlownyWidokComponent implements OnInit, OnDestroy {
   private userToRegister: UserInfoForRegister = this.firebaseDatabaseService.exposeUserRegInfo();
   public renderView: boolean = false;
   private kindListenerRef: firebase.database.Reference;
+  private userStateSub: Subscription;
 
   constructor(
     private firebaseDatabaseService: FirebaseDatabaseService,
@@ -25,7 +27,6 @@ export class GlownyWidokComponent implements OnInit, OnDestroy {
     private router: Router) { }
 
   ngOnInit() {
-    console.log('userToRegister', this.userToRegister);
     if (!!this.userToRegister) {
       this.firebaseDatabaseService.write('/users/' + this.userToRegister.key, this.userToRegister.toRegister)
       .then(() => {
@@ -36,27 +37,26 @@ export class GlownyWidokComponent implements OnInit, OnDestroy {
           }
         });
       })
-      .catch(err => console.error('Reigstration init', err));
+      .catch(err => { throw err; });
     } else {
-      const userInfo: firebase.User = this.firebaseAuthService.getUserInfo();
-      console.log('userInfo', userInfo);
-      if (!!userInfo) {
-        if (!!userInfo.uid) {
-          this.firebaseDatabaseService.read('/users/' + userInfo.uid).then(snapshot => {
-            console.log('snapshot', snapshot.val());
-            if (!!snapshot && !!snapshot.val()) {
-              if (snapshot.val().kind === UserKinds.Awaits) {
-                this.openWelcomingDialog(snapshot.val(), userInfo.uid);
-                this.listenOnPermissionChange(userInfo.uid);
-              } else {
-                this.checkUserPermissionsToValidateView(snapshot.val().kind);
+      this.userStateSub = this.firebaseAuthService.exposeUserState().subscribe(userState => {
+        if (!!userState) {
+          if (!!userState.uid) {
+            this.firebaseDatabaseService.read('/users/' + userState.uid).then(snapshot => {
+              if (!!snapshot && !!snapshot.val()) {
+                if (snapshot.val().kind === UserKinds.Awaits) {
+                  this.openWelcomingDialog(snapshot.val(), userState.uid);
+                  this.listenOnPermissionChange(userState.uid);
+                } else {
+                  this.checkUserPermissionsToValidateView(snapshot.val().kind);
+                }
               }
-            }
-          });
+            });
+          }
+        } else {
+          this.router.navigate(['/login']);
         }
-      } else {
-        this.router.navigate(['/login']);
-      }
+      });
     }
   }
 
@@ -97,6 +97,10 @@ export class GlownyWidokComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (!!this.kindListenerRef) {
       this.kindListenerRef.off('value');
+    }
+
+    if (!!this.userStateSub) {
+      this.userStateSub.unsubscribe();
     }
   }
 

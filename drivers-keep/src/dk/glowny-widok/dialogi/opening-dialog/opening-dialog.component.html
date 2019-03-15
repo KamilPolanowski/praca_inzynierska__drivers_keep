@@ -26,7 +26,7 @@
     <button *ngIf="!safeToCloseDialog; else closeDialogButton" mat-raised-button color="accent" (click)="confirmPhoneNumber(openingData)"
       [disabled]="disableResend">Potwierdź dane</button>
     <ng-template #closeDialogButton>
-        <button mat-raised-button mat-dialog-close color="primary">Przejdź do aplikacji!</button>
+        <button mat-raised-button (click)="closeDialog()" color="primary">Odśwież i przejdź do aplikacji!</button>
     </ng-template>
     
   </div>
