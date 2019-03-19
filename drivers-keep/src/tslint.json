@@ -1,17 +1,17 @@
 {
-  "extends": "../tslint.json",
-  "rules": {
-    "directive-selector": [
-      true,
-      "attribute",
-      "dk",
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "dk",
-      "kebab-case"
-    ]
-  }
+    "extends": "../tslint.json",
+    "rules": {
+        "directive-selector": [
+            true,
+            "attribute",
+            "drivers-keep",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "drivers-keep",
+            "kebab-case"
+        ]
+    }
 }

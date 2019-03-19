@@ -1,0 +1,62 @@
+@import 'scss/mixins/general-purpose';
+@import 'scss/mixins/tasks';
+
+.drivers-keep-nav {
+  @include flex-dircolumn;
+
+  .drivers-keep-nav__header-section {
+    @include width-height-setter(100%, $toolbar-height);
+
+    .header-section__menu {
+      @include flex-center-center;
+      @include width-height-setter(50px, 100%);
+    }
+
+    .header-section__status {
+      @include flex-items-center;
+      width: 100%;
+      margin: 0px 0px 13px 35px;
+    }
+  }
+
+  .drivers-keep-nav__menu-items {
+    height: calc(100vh - #{$toolbar-height});
+    @include flex-dircolumn();
+    justify-content: space-evenly;
+    align-items: center;
+
+    .menu-items__card {
+      @include width-height-setter(125px, 125px);
+      @include flex-center-center;
+      background-color: $grey-background;
+      cursor: pointer;
+
+      .card__label {
+        width: 50%;
+      }
+    }
+  }
+}
+// TODO reusable comp classes
+.drivers-keep-nav__disconnected {
+  position: absolute;
+  top: $toolbar-height;
+  height: $toolbar-substracted-height;
+  width: $task-section-width;
+  z-index: 2;
+
+  .disconnected__opacity-holder {
+    height: 100%;
+    background-color: white;
+    opacity: 0.85;
+  }
+
+  .disconnected__spinner {
+    $spinner-height: 100px;
+    $spinner-width: 100px;
+    width: $spinner-width;
+    height: $spinner-height;
+    margin-top: calc((100vh + (#{$toolbar-height} + (#{$spinner-height} / 2))) / -2);
+    margin-left: calc((#{$task-section-width} - #{$spinner-width}) / 2);
+  }
+}

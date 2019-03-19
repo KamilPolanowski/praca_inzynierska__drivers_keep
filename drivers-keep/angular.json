@@ -7,18 +7,18 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "dk",
+      "prefix": "drivers-keep",
       "schematics": {
         "@schematics/angular:component": {
           "changeDetection": "OnPush",
-          "style": "scss"
+          "styleext": "scss"
         }
       },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/drivers-keep",
+            "outputPath": "dist/dk",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -30,8 +30,12 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets"
+              ]
+            },
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -41,7 +45,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
@@ -50,12 +54,11 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "watch": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 }
               ]
             }
@@ -64,7 +67,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "drivers-keep:build"
+            "browserTarget": "drivers-keep:build",
+            "port": 4200
           },
           "configurations": {
             "production": {
@@ -88,11 +92,6 @@
             "styles": [
               "src/styles.scss"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/assets"
-              ]
-            },
             "scripts": [],
             "assets": [
               "src/favicon.ico",

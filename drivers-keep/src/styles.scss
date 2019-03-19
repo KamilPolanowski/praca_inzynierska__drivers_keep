@@ -1,3 +1,4 @@
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~@angular/material/theming';
 @import './assets/scss/colors/colors';
 @import './assets/scss/mixins/palette-theme';
@@ -5,11 +6,11 @@
 
 @include mat-core();
 
-$pcp-main-theme: mat-light-theme($pcp-primary, $pcp-accent, $pcp-warn);
+$drivers-keep-main-theme: mat-light-theme($drivers-keep-primary, $drivers-keep-accent, $drivers-keep-warn);
 
 @mixin custom-theme($theme) {
   @include palette-theme($theme);
 }
 
-@include angular-material-theme($pcp-main-theme);
-@include custom-theme($pcp-main-theme);
+@include angular-material-theme($drivers-keep-main-theme);
+@include custom-theme($drivers-keep-main-theme);

@@ -12,4 +12,59 @@
     background-color: mat-color($primary);
     color: $text-color;
   }
+  // Material
+  .mat-button, .mat-raised-button, .mat-flat-button, .mat-stroked-button {
+    border-radius: 10px !important;
+  }
+
+  .mat-flat-button {
+    line-height: 27px !important;
+  }
+
+  .mat-tab-label {
+    background-color: mat-color($accent) !important;
+    color: $text-color;
+    margin-right: 10px;
+    border-radius: 10px 10px 0px 0px;
+    height: 40px !important;
+    padding: 0 !important;
+    max-width: 160px !important;
+
+    .mat-tab-label-content {
+      width: 90% !important;
+      display: flex !important;
+      justify-content: flex-start !important;
+    }
+  }
+  // Context Menu
+  .ngx-contextmenu .dropdown-menu {
+    border: 2px solid mat-color($primary);
+    padding: 0;
+  }
+
+  .ngx-contextmenu li {
+    display: block;
+  }
+
+  .ngx-contextmenu li:first-child {
+    border-top: none;
+  }
+
+  .ngx-contextmenu a {
+    display: block;
+    padding: 0.5em;
+    text-decoration: none;
+    color: $text-color;
+    background-color: mat-color($primary);
+  }
+
+  .ngx-contextmenu a:hover {
+    color: mat-color($primary);
+    background-color: $text-color;
+  }
+
+  .ngx-contextmenu .divider {
+    height: 1px;
+    overflow: hidden;
+  }
 }

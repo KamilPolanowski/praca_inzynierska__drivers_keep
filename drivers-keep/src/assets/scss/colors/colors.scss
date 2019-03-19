@@ -1,12 +1,12 @@
 @import '~@angular/material/theming';
 @import './palette-colors';
 
-$pcp-primary: mat-palette($pcp-primary-palette);
-$pcp-accent:  mat-palette($pcp-accent-palette);
-$pcp-warn:    mat-palette($pcp-warn-palette);
+$drivers-keep-primary: mat-palette($drivers-keep-primary-palette);
+$drivers-keep-accent:  mat-palette($drivers-keep-accent-palette);
+$drivers-keep-warn:    mat-palette($drivers-keep-warn-palette);
 
-$primary: mat-color($pcp-primary);
-$accent: mat-color($pcp-accent);
-$warn: mat-color($pcp-warn);
+$primary: mat-color($drivers-keep-primary);
+$accent: mat-color($drivers-keep-accent);
+$warn: mat-color($drivers-keep-warn);
 
-$grey-background: mat-color($pcp-primary, 50);
+$grey-background: mat-color($drivers-keep-primary, 50);

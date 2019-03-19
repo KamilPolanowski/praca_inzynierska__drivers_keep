@@ -1,0 +1,14 @@
+@import 'scss/mixins/general-purpose';
+@import 'scss/mixins/tasks';
+
+.main-view {
+  display: flex;
+
+  .main-view__task-section {
+    @include width-height-setter($task-section-width, 100vh);
+  }
+  
+  .main-view__table-section {
+    @include width-height-setter(calc(100vw - #{$task-section-width}), 100vh);
+  }
+}

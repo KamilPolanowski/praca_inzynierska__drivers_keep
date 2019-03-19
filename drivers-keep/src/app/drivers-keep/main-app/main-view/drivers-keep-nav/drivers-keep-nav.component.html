@@ -1,0 +1,38 @@
+<div class="drivers-keep-nav" [@rolloutPanel]="'show'">
+  <mat-toolbar color="primary" class="drivers-keep-nav__header-section">
+    <drivers-keep-menu class="header-section__menu"></drivers-keep-menu>
+  </mat-toolbar>
+<!--   <div class="drivers-keep-nav__tasks" [contextMenu]="navPanelCtxtMenu">
+    <drivers-keep-nav-panel alerts="true" [tasks$]="alerts$" [@shrinkingAlerts]="shrinkAlerts"
+      [@expandingAlerts]="expandAlerts" class="tasks__panel">
+    </drivers-keep-nav-panel>
+    <drivers-keep-nav-panel [tasks$]="smses$" [@shrinkingSmses]="shrinkSmses" [@expandingSmses]="expandSmses"
+      class="tasks__panel">
+    </drivers-keep-nav-panel>
+  </div> -->
+  <div class="drivers-keep-nav__menu-items">
+    <mat-card *ngFor="let tab of tabs" matRipple (click)="menuElementChosen(tab.path)" class="menu-items__card">
+      <div class="card__label">
+        {{ tab.label }}
+      </div>
+    </mat-card>
+  </div>
+</div>
+<!-- TODO this will be reusable comp -->
+<div *ngIf="!tabsAvailable" [@rolloutPanel]="'show'" class="drivers-keep-nav__disconnected">
+  <div class="disconnected__opacity-holder"></div>
+  <mat-progress-spinner mode="indeterminate" color="primary" diameter="100" class="disconnected__spinner"></mat-progress-spinner>
+</div>
+
+<!-- <context-menu>
+  <ng-container *ngIf="!shrinkSmses">
+    <ng-template contextMenuItem (execute)="shrinkingPanelControl('alerts')">
+      {{ shrinkAlerts ? 'Show' : 'Hide' }} alerts
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="!shrinkAlerts">
+    <ng-template contextMenuItem (execute)="shrinkingPanelControl('smses')">
+      {{ shrinkSmses ? 'Show' : 'Hide' }} smses
+    </ng-template>
+  </ng-container>
+</context-menu> -->
