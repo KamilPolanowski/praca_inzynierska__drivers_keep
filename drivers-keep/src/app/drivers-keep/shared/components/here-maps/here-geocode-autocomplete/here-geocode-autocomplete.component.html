@@ -1,0 +1,13 @@
+<mat-form-field class="geocode">
+  <input #trigger matInput [placeholder]="placeholder" [matAutocomplete]="auto" [formControl]="geoControl">
+  <mat-hint *ngIf="!!hintValue" align="end" class="geocode__hint pointer">{{ hintValue }}</mat-hint>
+  <mat-icon *ngIf="!!currentCoordinates && !!currentCoordinates.lat && !!currentCoordinates.lng" matSuffix (click)="openSelectedCoordinatesInGmaps()" matTooltip="Open Google Map"
+    class="pointer icon-size">launch</mat-icon>
+  <mat-icon matSuffix (click)="clearInput()" class="pointer icon-size">close</mat-icon>
+</mat-form-field>
+
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let address of addresses | async; let i = index" [value]="address.value" (click)="chooseHereAddress(i)">
+    {{ address.display }}
+  </mat-option>
+</mat-autocomplete>

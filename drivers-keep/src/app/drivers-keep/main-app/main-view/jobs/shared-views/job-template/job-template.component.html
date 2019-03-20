@@ -1,0 +1,144 @@
+<form [formGroup]="form" class="job-template">
+
+  <mat-card class="job-template__data">
+    <mat-card-title class="data__header">Dane odbiorcy</mat-card-title>
+    <div class="data__receiver">
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="receiver_name" autocomplete="off" placeholder="Imię"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="receiver_surname" autocomplete="off" placeholder="Nazwisko"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="receiver_city" autocomplete="off" placeholder="Miasto"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <here-geocode-autocomplete [city]="form.value.receiver_city" [initialAddress]="form.value.receiver_address"
+          placeholder="Adres" (chosenAddress)="addressFromGeocoder($event)"
+          (addressChosenFromGeocoder)="isChosenFromGeocoder($event)"></here-geocode-autocomplete>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="receiver_zipcode" autocomplete="off" placeholder="Kod pocztowy"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="receiver_phoneNumber" autocomplete="off" placeholder="Numer telefonu"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+
+
+
+  <mat-card class="job-template__data">
+    <mat-card-title class="data__header">Dane nadawcy</mat-card-title>
+    <div class="data__sender">
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="sender_name" autocomplete="off" placeholder="Imię" class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="sender_surname" autocomplete="off" placeholder="Nazwisko"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="sender_address" autocomplete="off" placeholder="Adres"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="sender_city" autocomplete="off" placeholder="Miasto"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="sender_zipcode" autocomplete="off" placeholder="Kod pocztowy"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="sender_phoneNumber" autocomplete="off" placeholder="Numer telefonu"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+
+
+
+  <mat-card class="job-template__details" [ngStyle]="{'margin-bottom.px': viewMode ? 20 : ''}">
+    <mat-card-title class="details__header">Szczegóły zlecenia</mat-card-title>
+    <div class="details__inputs">
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="detail_contains" autocomplete="off" placeholder="Zawartość"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="detail_size" autocomplete="off" placeholder="Rozmiar"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="detail_weight" autocomplete="off" placeholder="Waga"
+            class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <input matInput formControlName="detail_documentsToReturn" autocomplete="off"
+            placeholder="Dokumenty do zwrotu" class="form-field__name">
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field class="form-field">
+          <mat-label>Dodatkowe informacje</mat-label>
+          <textarea matInput formControlName="detail_description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" autocomplete="off" class="form-field__name"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+
+
+
+  <mat-card *ngIf="!viewMode" class="job-template__actions">
+    <div *ngIf="!addressChosenFromGeocoder" class="actions__warning">
+      <div>Proszę wybrać adres odbiorcy z autowyszukiwania w celu zapisania koordynatów!</div>
+      <div class="warning__unlock">
+        <div>Nie ma koordynatów dla danego adresu?</div>
+        <div (click)="addressChosenFromGeocoder = true" class="unlock__click">Odblokuj przycisk</div>
+      </div>
+    </div>
+    <div class="actions__buttons">
+      <button mat-raised-button type="button" color="warn" class="buttons__save" (click)="saveValues()"
+        [disabled]="!addressChosenFromGeocoder">
+        Dodaj zlecenie
+      </button>
+    </div>
+  </mat-card>
+
+</form>

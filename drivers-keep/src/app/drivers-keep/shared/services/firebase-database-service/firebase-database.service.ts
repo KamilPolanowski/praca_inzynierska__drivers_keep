@@ -14,7 +14,7 @@ export class FirebaseDatabaseService {
     return this.fireDatabase.database.ref(whereTo).set(what, onComplete);
   }
 
-  pushChildAtRoot(child: string, pushValue?: string, onComplete?: (a: Error | null) => any): string {
+  pushChildAtRootGetKey(child: string, pushValue?: string, onComplete?: (a: Error | null) => any): string {
     return this.fireDatabase.database.ref().child(child).push(pushValue, onComplete).key;
   }
 

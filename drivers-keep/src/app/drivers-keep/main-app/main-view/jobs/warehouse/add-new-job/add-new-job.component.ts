@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { NewJobOutput } from '@drivers-keep-shared/interfaces/jobs.interface';
+import { AssigningWorkersToJobsService } from '../../services/assigning-workers-to-jobs.service';
 
 @Component({
   selector: 'drivers-keep-add-new-job',
@@ -8,9 +10,17 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class AddNewJobComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private assigningWorkersToJobsService: AssigningWorkersToJobsService
+  ) { }
 
   ngOnInit() {
+  }
+
+  public afterSavingForm(output: NewJobOutput): void {
+    console.log('output', output);
+    // const newKey: string = this.firebaseDatabaseService.pushChildAtRootGetKey('/active');
+    this.assigningWorkersToJobsService.assignWorker(output);
   }
 
 }

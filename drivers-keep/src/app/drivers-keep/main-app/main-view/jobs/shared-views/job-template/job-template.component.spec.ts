@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DynamicDialogComponent } from './dynamic-dialog.component';
+import { JobTemplateComponent } from './job-template.component';
 
-describe('DynamicDialogComponent', () => {
-  let component: DynamicDialogComponent;
-  let fixture: ComponentFixture<DynamicDialogComponent>;
+describe('JobTemplateComponent', () => {
+  let component: JobTemplateComponent;
+  let fixture: ComponentFixture<JobTemplateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DynamicDialogComponent ]
+      declarations: [ JobTemplateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DynamicDialogComponent);
+    fixture = TestBed.createComponent(JobTemplateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

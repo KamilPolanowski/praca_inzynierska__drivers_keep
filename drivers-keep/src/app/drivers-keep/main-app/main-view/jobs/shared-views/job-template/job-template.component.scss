@@ -1,0 +1,82 @@
+@import 'scss/mixins/general-purpose';
+
+.job-template {
+  @include flex-center-center();
+  @include flex-dircolumn();
+
+  %card {
+    @include flex-dircolumn();
+    margin-top: 20px;
+    background-color: $grey-background;
+    width: 600px;
+  }
+
+  %header {
+    text-align: center;
+  }
+
+  %inputHolder {
+    @include flex-center-center();
+    height: 100%;
+    flex-direction: column;
+  }
+
+  .input-container, .form-field {
+    width: 300px
+  }
+
+  .job-template__data {
+    @extend %card;
+    
+    .data__header {
+      @extend %header;
+    }
+
+    .data__receiver, .data__sender {
+      @extend %inputHolder;
+    }
+  }
+
+  .job-template__details {
+    @extend %card;
+
+    .details__header {
+      @extend %header;
+    }
+
+    .details__inputs {
+      @extend %inputHolder;
+    }
+  }
+
+  .job-template__actions {
+    @extend %card;
+    margin-bottom: 20px;
+
+    .actions__warning {
+      padding: 5px;
+      margin-bottom: 10px;
+      color: $primary;
+
+      .warning__unlock {
+        display: flex;
+
+        .unlock__click {
+          text-decoration: underline;
+          color: $warn;
+          margin-left: 5px;
+          cursor: pointer;
+        }
+      }
+
+    }
+
+    .actions__buttons {
+      @include flex-content-center();
+
+      .buttons__save {
+        width: 150px;
+      }
+    }
+  }
+}

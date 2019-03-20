@@ -8,8 +8,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
-import { DynamicComponentsModule } from '@drivers-keep-shared/dynamic-dialog/dynamic-components.module';
-
 import { DriversKeepRoutingModule } from './drivers-keep-routing.module';
 import { DriversKeepComponent } from './drivers-keep/drivers-keep.component';
 
@@ -37,7 +35,6 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    DynamicComponentsModule,
     ContextMenuModule.forRoot()
   ],
   providers: [

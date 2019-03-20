@@ -1,0 +1,6 @@
+@import 'scss/mixins/general-purpose';
+
+.add-new-job {
+  @include width-height-setter(100%, 100%);
+  @include scroll-overflow-generator();
+}

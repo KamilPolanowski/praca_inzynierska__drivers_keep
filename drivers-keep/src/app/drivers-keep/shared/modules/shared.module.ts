@@ -12,7 +12,8 @@ import {
   MatProgressSpinnerModule,
   MatInputModule,
   MatDividerModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatAutocompleteModule
 } from '@angular/material';
 
 @NgModule({
@@ -28,6 +29,7 @@ import {
     MatInputModule,
     MatDividerModule,
     MatTooltipModule,
+    MatAutocompleteModule,
     ContextMenuModule
     // TODO reusable disconnected-absolute here
   ]

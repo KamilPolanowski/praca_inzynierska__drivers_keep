@@ -1,0 +1,18 @@
+@import 'scss/colors/colors';
+
+.geocode {
+  width: 100%;
+
+  .geocode__hint {
+    font-size: 14px;
+    color: $primary;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .icon-size {
+    font-size: 16px;
+  }
+}

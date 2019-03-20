@@ -18,6 +18,9 @@
       "es2018",
       "dom"
     ],
+    "types": [
+      "heremaps"
+    ],
     "paths": {
       "@drivers-keep-shared/*": ["src/app/drivers-keep/shared/*"],
       "@drivers-keep-sys/*": ["src/app/drivers-keep/sys/*"]

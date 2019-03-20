@@ -8,6 +8,19 @@ export interface DatabaseUser {
   kind?: UserKinds;
   name?: string;
   surname?: string;
+  additional_duties?: DriverDuties | WarehouseDuties | AdminDuties;
+}
+
+export interface DriverDuties {
+  assigned_zipcodes: string;
+}
+
+export interface WarehouseDuties {
+  [prop: string]: string;
+}
+
+export interface AdminDuties {
+  [prop: string]: string;
 }
 
 export interface UserInfoForRegister {
