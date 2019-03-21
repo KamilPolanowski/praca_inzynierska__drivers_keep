@@ -18,8 +18,6 @@ export class AddNewJobComponent implements OnInit {
   }
 
   public afterSavingForm(output: NewJobOutput): void {
-    console.log('output', output);
-    // const newKey: string = this.firebaseDatabaseService.pushChildAtRootGetKey('/active');
     this.assigningWorkersToJobsService.assignWorker(output);
   }
 

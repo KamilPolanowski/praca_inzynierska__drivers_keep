@@ -2,7 +2,7 @@
 $light-primary-text: #ffffff;
 $dark-primary-text: #000000;
 
-$drivers-keep-primary-palette: (
+$drivers-keep-warn-palette: (
   // 50 : #fae5e6,
   50 : #F8F9F9,
   100 : #f2bdc0,
@@ -36,7 +36,7 @@ $drivers-keep-primary-palette: (
   )
 );
 
-$drivers-keep-accent-palette: (
+$drivers-keep-primary-palette: (
   50 : #e4e6e6,
   100 : #bdc0c1,
   200 : #919698,
@@ -69,7 +69,7 @@ $drivers-keep-accent-palette: (
   )
 );
 
-$drivers-keep-warn-palette: (
+$drivers-keep-accent-palette: (
   50 : #fafbe4,
   100 : #f3f5bd,
   200 : #ebef91,

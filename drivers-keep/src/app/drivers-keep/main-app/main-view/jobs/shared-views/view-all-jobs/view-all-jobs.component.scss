@@ -1,0 +1,54 @@
+@import 'scss/mixins/general-purpose';
+
+.view-all-jobs {
+  @include width-height-setter(100%, 100%);
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  .view-all-jobs__header {
+    height: 70px;
+  }
+
+  .view-all-jobs__list-container {
+    @include width-height-setter(940px, 90%);
+    @include flex-dircolumn();
+    @include scroll-overflow-generator();
+    margin-top: 20px;
+
+
+    .list-container__card {
+      padding: 15px;
+      display: flex;
+      width: 98%;
+      margin: 0 10px 15px 10px;
+
+      .card__date {
+        width: 125px;
+      }
+
+      .card__divider {
+        margin: 0 10px 0 10px;
+      }
+
+      .card__zipcodes {
+        @include flex-content-center();
+        width: 150px;
+      }
+
+      .card__worker {
+        width: 200px;
+      }
+
+      .card__assigned-checkbox {
+        width: 125px;
+      }
+
+      .card__edit {
+        @include flex-content-center();
+        width: 60px;
+        cursor: pointer;
+      }
+    }
+  }
+}

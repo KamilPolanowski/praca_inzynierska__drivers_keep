@@ -11,9 +11,10 @@ import {
   MatCardModule,
   MatProgressSpinnerModule,
   MatInputModule,
-  MatDividerModule,
   MatTooltipModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatToolbarModule,
+  MatDividerModule
 } from '@angular/material';
 
 @NgModule({
@@ -25,9 +26,10 @@ import {
     MatSelectModule,
     MatButtonModule,
     MatCardModule,
+    MatToolbarModule,
+    MatDividerModule,
     MatProgressSpinnerModule,
     MatInputModule,
-    MatDividerModule,
     MatTooltipModule,
     MatAutocompleteModule,
     ContextMenuModule

@@ -75,8 +75,9 @@ export interface NewJobOutput {
 }
 
 export interface JobForDatabase extends NewJobOutput {
-  job_id: string;
   driver_id: string;
+  driver_full_name: string;
   assigned: boolean;
   added_date: string;
+  deilivered: boolean;
 }
