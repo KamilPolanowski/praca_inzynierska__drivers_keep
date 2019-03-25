@@ -1,14 +1,5 @@
 import { Point } from '@drivers-keep-shared/components/here-maps/heremaps.interfaces';
 
-export class Job {
-  // tslint:disable-next-line: no-use-before-declare
-  receiver_data: JobDataReceiver = new JobDataReceiver();
-  // tslint:disable-next-line: no-use-before-declare
-  sender_data: JobDataSender = new JobDataSender();
-  // tslint:disable-next-line: no-use-before-declare
-  details: JobDetails = new JobDetails();
-}
-
 export class JobData {
   name: string = '';
   surname: string = '';
@@ -25,7 +16,7 @@ export interface ReceiverLocationData {
   coordinates: Point;
   locationId: string;
   displayValue: string;
-  postalCode: string;
+  zipcode: string;
 }
 
 export class JobDataReceiver extends JobData {
@@ -36,7 +27,7 @@ export class JobDataReceiver extends JobData {
     },
     locationId: '',
     displayValue: '',
-    postalCode: ''
+    zipcode: ''
   };
 }
 
@@ -48,33 +39,13 @@ export class JobDetails {
   description: string = '';
 }
 
-export interface NewJobOutput {
-  details: {
-    detail_contains: string;
-    detail_description: string;
-    detail_documentsToReturn: string;
-    detail_size: string;
-    detail_weight: string;
-  };
-  receiver: {
-    receiver_address: ReceiverLocationData;
-    receiver_city: string;
-    receiver_name: string;
-    receiver_phoneNumber: string;
-    receiver_surname: string;
-    receiver_zipcode: string;
-  };
-  sender: {
-    sender_address: string;
-    sender_city: string;
-    sender_name: string;
-    sender_phoneNumber: string;
-    sender_surname: string;
-    sender_zipcode: string;
-  };
+export class Job {
+  details: JobDetails = new JobDetails();
+  receiver: JobDataReceiver = new JobDataReceiver();
+  sender: JobDataSender = new JobDataSender();
 }
 
-export interface JobForDatabase extends NewJobOutput {
+export interface JobDatabase extends Job {
   driver_id: string;
   driver_full_name: string;
   assigned: boolean;

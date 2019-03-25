@@ -2,17 +2,17 @@
   <mat-toolbar color="primary" class="view-all-jobs__header">
   </mat-toolbar>
   <virtual-scroller #scroll [items]="jobsArr" class="view-all-jobs__list-container">
-    <mat-card *ngFor="let job of scroll.viewPortItems" class="list-container__card">
+    <mat-card *ngFor="let job of scroll.viewPortItems; let i = index" class="list-container__card">
       <div class="card__date">
-        21-03-2019 11:53
+        {{ job.added_date }}
       </div>
 
       <mat-divider [vertical]="true" class="card__divider"></mat-divider>
 
       <div class="card__zipcodes">
-        <div>{{ job.sender.sender_zipcode }} </div>
+        <div>{{ job.sender.zipcode }} </div>
         <mat-icon>arrow_right_alt</mat-icon>
-        <div>{{ job.receiver.receiver_zipcode }} </div>
+        <div>{{ job.receiver.zipcode }} </div>
       </div>
 
       <mat-divider [vertical]="true" class="card__divider"></mat-divider>
@@ -39,7 +39,7 @@
 
       <mat-divider [vertical]="true" class="card__divider"></mat-divider>
 
-      <div class="card__edit">
+      <div class="card__edit" (click)="editJob(i)">
         <mat-icon>settings</mat-icon>
       </div>
     </mat-card>

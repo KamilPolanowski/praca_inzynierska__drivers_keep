@@ -7,5 +7,5 @@ export interface GeocoderOutput {
   coordinates: Point;
   locationId: string;
   displayValue: string;
-  postalCode: string;
+  zipcode: string;
 }

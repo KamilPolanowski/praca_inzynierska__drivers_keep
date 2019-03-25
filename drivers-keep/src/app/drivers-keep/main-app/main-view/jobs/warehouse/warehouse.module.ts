@@ -10,6 +10,7 @@ import { AddNewJobComponent } from './add-new-job/add-new-job.component';
 import { JobTemplateComponent } from '../shared-views/job-template/job-template.component';
 import { HereGeocodeAutocompleteComponent } from '@drivers-keep-shared/components/here-maps/here-geocode-autocomplete/here-geocode-autocomplete.component';
 import { ViewAllJobsComponent } from '../shared-views/view-all-jobs/view-all-jobs.component';
+import { EditJobComponent } from '../shared-views/edit-job/edit-job.component';
 
 const MATERIAL_MODULE_SCOPED = [
   MatCheckboxModule
@@ -21,7 +22,8 @@ const MATERIAL_MODULE_SCOPED = [
     JobTemplateComponent,
     AddNewJobComponent,
     HereGeocodeAutocompleteComponent,
-    ViewAllJobsComponent
+    ViewAllJobsComponent,
+    EditJobComponent
   ],
   imports: [
     CommonModule,

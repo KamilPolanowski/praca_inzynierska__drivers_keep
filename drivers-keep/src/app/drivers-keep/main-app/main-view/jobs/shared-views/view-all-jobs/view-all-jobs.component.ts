@@ -1,7 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { FirebaseDatabaseService } from '@drivers-keep-shared/services/firebase-database-service/firebase-database.service';
-import { JobForDatabase } from '@drivers-keep-shared/interfaces/jobs.interface';
+import { JobDatabase } from '@drivers-keep-shared/interfaces/jobs.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'drivers-keep-view-all-jobs',
@@ -10,18 +11,19 @@ import { JobForDatabase } from '@drivers-keep-shared/interfaces/jobs.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewAllJobsComponent implements OnInit {
-  public jobsArr: JobForDatabase[] = [];
+  public jobsArr: JobDatabase[] = [];
   public jobsIds: string[] = [];
 
   constructor(
     private firebaseDatabaseService: FirebaseDatabaseService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit() { // TODO: stronicowanie
     this.firebaseDatabaseService.read('/jobs').then(snapshot => {
       if (!!snapshot && !!snapshot.val()) {
-        const jobs: [string, JobForDatabase][] = Object.entries(snapshot.val());
+        const jobs: [string, JobDatabase][] = Object.entries(snapshot.val());
 
         for (const [jobId, properties] of jobs) {
           this.jobsArr.push(properties);
@@ -29,6 +31,10 @@ export class ViewAllJobsComponent implements OnInit {
         }
       }
     }).finally(() => this.cd.detectChanges());
+  }
+
+  public editJob(index: number): void {
+    this.router.navigate(['/drivers-keep/magazyn/zlecenie/' + this.jobsIds[index]]);
   }
 
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectionStrategy, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Job, NewJobOutput, ReceiverLocationData } from '@drivers-keep-shared/interfaces/jobs.interface';
-import { GeocoderOutput } from '@drivers-keep-shared/components/here-maps/heremaps.interfaces';
+import { Job, ReceiverLocationData } from '@drivers-keep-shared/interfaces/jobs.interface';
+import { GeocoderOutput, Point } from '@drivers-keep-shared/components/here-maps/heremaps.interfaces';
 
 @Component({
   selector: 'drivers-keep-job-template',
@@ -9,11 +9,12 @@ import { GeocoderOutput } from '@drivers-keep-shared/components/here-maps/herema
   styleUrls: ['./job-template.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class JobTemplateComponent implements OnInit {
+export class JobTemplateComponent implements OnInit, OnChanges {
   @Input() order: Job = new Job();
   @Input() viewMode: boolean = false;
-  @Output() formOutput: EventEmitter<NewJobOutput> = new EventEmitter;
+  @Output() formOutput: EventEmitter<Job> = new EventEmitter;
   public form: FormGroup;
+  public currentCoordinates: Point;
   private addressChosenFromGeocoder: boolean = false;
   private receiverAddress: ReceiverLocationData;
 
@@ -26,26 +27,34 @@ export class JobTemplateComponent implements OnInit {
     this.setForm(this.order);
   }
 
+  ngOnChanges(): void {
+    if (this.viewMode) {
+      this.setForm(this.order);
+    }
+  }
+
   private setForm(order: Job): void {
     this.form = this.formBuilder.group({
-      receiver_name: [{ value: order.receiver_data.name, disabled: this.viewMode }],
-      receiver_surname: [{ value: order.receiver_data.surname, disabled: this.viewMode }],
-      receiver_address: [{ value: order.receiver_data.address.displayValue, disabled: this.viewMode }],
-      receiver_city: [{ value: order.receiver_data.city, disabled: this.viewMode }],
-      receiver_zipcode: [{ value: order.receiver_data.zipcode, disabled: this.viewMode }],
-      receiver_phoneNumber: [{ value: order.receiver_data.phoneNumber, disabled: this.viewMode }],
-      sender_name: [{ value: order.sender_data.name, disabled: this.viewMode }],
-      sender_surname: [{ value: order.sender_data.surname, disabled: this.viewMode }],
-      sender_address: [{ value: order.sender_data.address, disabled: this.viewMode }],
-      sender_city: [{ value: order.sender_data.city, disabled: this.viewMode }],
-      sender_zipcode: [{ value: order.sender_data.zipcode, disabled: this.viewMode }],
-      sender_phoneNumber: [{ value: order.sender_data.phoneNumber, disabled: this.viewMode }],
+      receiver_name: [{ value: order.receiver.name, disabled: this.viewMode }],
+      receiver_surname: [{ value: order.receiver.surname, disabled: this.viewMode }],
+      receiver_address: [{ value: order.receiver.address.displayValue, disabled: this.viewMode }],
+      receiver_city: [{ value: order.receiver.city, disabled: this.viewMode }],
+      receiver_zipcode: [{ value: order.receiver.zipcode, disabled: this.viewMode }],
+      receiver_phoneNumber: [{ value: order.receiver.phoneNumber, disabled: this.viewMode }],
+      sender_name: [{ value: order.sender.name, disabled: this.viewMode }],
+      sender_surname: [{ value: order.sender.surname, disabled: this.viewMode }],
+      sender_address: [{ value: order.sender.address, disabled: this.viewMode }],
+      sender_city: [{ value: order.sender.city, disabled: this.viewMode }],
+      sender_zipcode: [{ value: order.sender.zipcode, disabled: this.viewMode }],
+      sender_phoneNumber: [{ value: order.sender.phoneNumber, disabled: this.viewMode }],
       detail_contains: [{ value: order.details.contains, disabled: this.viewMode }],
       detail_size: [{ value: order.details.size, disabled: this.viewMode }],
       detail_weight: [{ value: order.details.weight, disabled: this.viewMode }],
       detail_documentsToReturn: [{ value: order.details.documentsToReturn, disabled: this.viewMode }],
       detail_description: [{ value: order.details.description, disabled: this.viewMode }]
     });
+
+    this.currentCoordinates = order.receiver.address.coordinates;
   }
 
   public isChosenFromGeocoder(isIt: boolean): void {
@@ -59,10 +68,10 @@ export class JobTemplateComponent implements OnInit {
         coordinates: addressObj.coordinates,
         locationId: addressObj.locationId,
         displayValue: addressObj.displayValue,
-        postalCode: addressObj.postalCode
+        zipcode: addressObj.zipcode
       };
 
-      this.form.controls['receiver_zipcode'].setValue(addressObj.postalCode);
+      this.form.controls['receiver_zipcode'].setValue(addressObj.zipcode);
       this.cd.detectChanges();
     }
   }
@@ -70,36 +79,41 @@ export class JobTemplateComponent implements OnInit {
   public saveValues(): void {
     if (this.addressChosenFromGeocoder) {
       const formValues = this.form.value;
-      const output: NewJobOutput = {
+      const output: Job = {
         details: {
-          detail_contains: formValues.detail_contains,
-          detail_description: formValues.detail_description,
-          detail_documentsToReturn: formValues.detail_documentsToReturn,
-          detail_size: formValues.detail_size,
-          detail_weight: formValues.detail_weight
+          contains: formValues.detail_contains,
+          description: formValues.detail_description,
+          documentsToReturn: formValues.detail_documentsToReturn,
+          size: formValues.detail_size,
+          weight: formValues.detail_weight
         },
         receiver: {
-          receiver_address: this.receiverAddress,
-          receiver_city: formValues.receiver_city,
-          receiver_name: formValues.receiver_name,
-          receiver_phoneNumber: formValues.receiver_phoneNumber,
-          receiver_surname: formValues.receiver_surname,
-          receiver_zipcode: formValues.receiver_zipcode
+          address: this.receiverAddress,
+          city: formValues.receiver_city,
+          name: formValues.receiver_name,
+          phoneNumber: formValues.receiver_phoneNumber,
+          surname: formValues.receiver_surname,
+          zipcode: formValues.receiver_zipcode
         },
         sender: {
-          sender_address: formValues.sender_address,
-          sender_city: formValues.sender_city,
-          sender_name: formValues.sender_name,
-          sender_phoneNumber: formValues.sender_phoneNumber,
-          sender_surname: formValues.sender_surname,
-          sender_zipcode: formValues.sender_zipcode
+          address: formValues.sender_address,
+          city: formValues.sender_city,
+          name: formValues.sender_name,
+          phoneNumber: formValues.sender_phoneNumber,
+          surname: formValues.sender_surname,
+          zipcode: formValues.sender_zipcode
         }
       };
 
       this.formOutput.emit(output);
-    } else {
-
     }
+  }
+
+  public unlockFromEditMode(): void {
+    this.viewMode = false;
+    this.setForm(this.order);
+    this.cd.markForCheck();
+    // TODO: output dla edit-job.comp, ktory w bazie zapisze modyfikacje
   }
 
 }

@@ -7,6 +7,7 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { MatSnackBarModule } from '@angular/material';
 
 import { DriversKeepRoutingModule } from './drivers-keep-routing.module';
 import { DriversKeepComponent } from './drivers-keep/drivers-keep.component';
@@ -23,6 +24,10 @@ const firebaseConfig = {
   messagingSenderId: '2346174526'
 };
 
+const MATERIAL_SCOPED_MODULES = [
+  MatSnackBarModule
+];
+
 @NgModule({
   declarations: [
     DriversKeepComponent
@@ -35,7 +40,8 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    ContextMenuModule.forRoot()
+    ContextMenuModule.forRoot(),
+    MATERIAL_SCOPED_MODULES
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: XHRInterceptor, multi: true },

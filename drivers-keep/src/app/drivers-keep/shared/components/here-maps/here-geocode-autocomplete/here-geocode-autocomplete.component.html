@@ -3,7 +3,7 @@
   <mat-hint *ngIf="!!hintValue" align="end" class="geocode__hint pointer">{{ hintValue }}</mat-hint>
   <mat-icon *ngIf="!!currentCoordinates && !!currentCoordinates.lat && !!currentCoordinates.lng" matSuffix (click)="openSelectedCoordinatesInGmaps()" matTooltip="Open Google Map"
     class="pointer icon-size">launch</mat-icon>
-  <mat-icon matSuffix (click)="clearInput()" class="pointer icon-size">close</mat-icon>
+  <mat-icon *ngIf="!inputDisabled" matSuffix (click)="clearInput()" class="pointer icon-size">close</mat-icon>
 </mat-form-field>
 
 <mat-autocomplete #auto="matAutocomplete">

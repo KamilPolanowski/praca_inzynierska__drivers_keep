@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -13,10 +13,11 @@ import { Point, GeocoderOutput } from '../heremaps.interfaces';
   styleUrls: ['./here-geocode-autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HereGeocodeAutocompleteComponent implements OnInit {
+export class HereGeocodeAutocompleteComponent implements OnInit, OnChanges {
   @Input() city: string;
   @Input() initialAddress: string;
   @Input() placeholder: string;
+  @Input() inputDisabled: boolean = false;
   @Input() currentCoordinates: Point;
   @Output() chosenAddress: EventEmitter<GeocoderOutput> = new EventEmitter;
   @Output() addressChosenFromGeocoder: EventEmitter<boolean> = new EventEmitter;
@@ -32,11 +33,22 @@ export class HereGeocodeAutocompleteComponent implements OnInit {
     private hereSettings: HereConfig,
     private cd: ChangeDetectorRef) { }
 
-  ngOnInit() {
+
+  ngOnChanges(): void {
     if (!!this.initialAddress) {
       this.geoControl.setValue(this.initialAddress);
     }
 
+    if (this.inputDisabled) {
+      this.geoControl.disable();
+      this.cd.detectChanges();
+    } else {
+      this.geoControl.enable();
+      this.cd.detectChanges();
+    }
+  }
+
+  ngOnInit() {
     new Promise(platform => {
       platform(this.platform = new H.service.Platform(this.hereSettings.hereMapsApiKey));
     }).then(() => {
@@ -106,7 +118,7 @@ export class HereGeocodeAutocompleteComponent implements OnInit {
       const result = this.geocoderResponse.response.view[0].result[i];
 
       const displayValue: string = result.location.address.street + ' ' + result.location.address.houseNumber;
-      const postalCode: string = result.location.address.postalCode;
+      const zipcode: string = result.location.address.postalCode;
 
       if (!!result.location.displayPosition) {
         const coordinates: Point = {
@@ -118,7 +130,7 @@ export class HereGeocodeAutocompleteComponent implements OnInit {
           coordinates,
           locationId: result.location.locationId,
           displayValue,
-          postalCode
+          zipcode
         };
         this.addressChosenFromGeocoder.emit(true);
         this.currentCoordinates = coordinates;
@@ -135,7 +147,7 @@ export class HereGeocodeAutocompleteComponent implements OnInit {
           },
           locationId: result.location.locationId,
           displayValue,
-          postalCode
+          zipcode
         };
 
         this.addressChosenFromGeocoder.emit(false);

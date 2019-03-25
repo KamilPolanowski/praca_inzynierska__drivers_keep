@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AddNewJobComponent } from './add-new-job/add-new-job.component';
 import { ViewAllJobsComponent } from '../shared-views/view-all-jobs/view-all-jobs.component';
+import { EditJobComponent } from '../shared-views/edit-job/edit-job.component';
 
 const routes: Routes = [
   {
@@ -16,11 +17,11 @@ const routes: Routes = [
   {
     path: 'przeglad-zlecen',
     component: ViewAllJobsComponent
-  }/* ,
+  },
   {
-    path: 'zlecenie:zid',
-    component: AddNewJobComponent
-  } */
+    path: 'zlecenie/:jid',
+    component: EditJobComponent
+  }
 ];
 
 @NgModule({

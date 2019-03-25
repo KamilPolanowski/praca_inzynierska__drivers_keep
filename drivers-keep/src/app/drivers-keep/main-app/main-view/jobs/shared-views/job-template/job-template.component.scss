@@ -56,7 +56,7 @@
     .actions__warning {
       padding: 5px;
       margin-bottom: 10px;
-      color: $primary;
+      color: $warn;
 
       .warning__unlock {
         display: flex;
@@ -77,6 +77,10 @@
       .buttons__save {
         width: 150px;
       }
+    }
+
+    .actions__edit {
+      @include flex-center-center();
     }
   }
 }

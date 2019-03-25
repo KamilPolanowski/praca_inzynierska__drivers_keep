@@ -23,8 +23,9 @@
       </div>
       <div class="input-container">
         <here-geocode-autocomplete [city]="form.value.receiver_city" [initialAddress]="form.value.receiver_address"
-          placeholder="Adres" (chosenAddress)="addressFromGeocoder($event)"
-          (addressChosenFromGeocoder)="isChosenFromGeocoder($event)"></here-geocode-autocomplete>
+          placeholder="Adres" [inputDisabled]="viewMode" [currentCoordinates]="currentCoordinates"
+          (chosenAddress)="addressFromGeocoder($event)" (addressChosenFromGeocoder)="isChosenFromGeocoder($event)">
+        </here-geocode-autocomplete>
       </div>
       <div class="input-container">
         <mat-form-field class="form-field">
@@ -125,7 +126,7 @@
 
 
 
-  <mat-card *ngIf="!viewMode" class="job-template__actions">
+  <mat-card *ngIf="!viewMode; else editActions" class="job-template__actions">
     <div *ngIf="!addressChosenFromGeocoder" class="actions__warning">
       <div>Proszę wybrać adres odbiorcy z autowyszukiwania w celu zapisania koordynatów!</div>
       <div class="warning__unlock">
@@ -140,5 +141,15 @@
       </button>
     </div>
   </mat-card>
+
+  <ng-template #editActions>
+    <mat-card class="job-template__actions">
+      <div class="actions__edit">
+        <button mat-raised-button color="accent" (click)="unlockFromEditMode()">
+          Odblokuj zlecenie
+        </button>
+      </div>
+    </mat-card>
+  </ng-template>
 
 </form>
